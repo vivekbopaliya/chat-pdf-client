@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { CirclePlus } from "lucide-react";
 import {
   Dialog,
@@ -8,45 +8,50 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../shadcn/ui/Dialog";
-import { useDispatch, useSelector } from "react-redux";
-import { setCurrentPDF } from "../redux/pdf";
+import { useDispatch } from "react-redux";
+import { setCurrentPDF, setIsUploaded } from "../redux/pdf";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { LoaderCircle } from "lucide-react";
-import { setChatHistory } from "../redux/chat";
 
 const UploadPDF = () => {
-  const currentPDF = useSelector((state) => state.PDF.currentPDF);
+  const [pdf, setPdf] = useState(null);
+  const dispatch = useDispatch();
+
   const [loading, setLoading] = React.useState(false);
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
 
-  const dispatch = useDispatch();
-
   const handleFile = (e) => {
     const file = e.target.files[0];
-    dispatch(setCurrentPDF(file));
+    setPdf(file);
   };
 
-  console.log(currentPDF);
+  // Sending PDF to server using FormData
   const handleFileSubmit = async () => {
     setLoading(true);
-    console.log("clicked");
     const formData = new FormData();
-    formData.append("file", currentPDF);
+    formData.append("file", pdf);
 
     try {
-      const res = await axios.post("http://127.0.0.1:8000/upload", formData, {
+      await axios.post("http://127.0.0.1:8000/upload", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
+
       toast.success("File uploaded successfully.");
-      console.log(res.data);
-      // dispatch(setChatHistory(res.data))
       setIsDialogOpen(false);
+
+      // Storing currently uploaded PDF in the Redux store for further use cases in diffrent components
+      dispatch(setCurrentPDF(pdf));
+
+      // Setting this to true to indicate that a new PDF has been uploaded.
+      dispatch(setIsUploaded(true));
     } catch (error) {
-      console.log(error);
       toast.error("Uploaded file must be a PDF.");
+      setPdf(null);
+
+      // Removing the uploaded file from our Redux store in case of any errors
       dispatch(setCurrentPDF(null));
     } finally {
       setLoading(false);
@@ -86,13 +91,11 @@ const UploadPDF = () => {
             <div className="flex items-center justify-center w-full">
               <span
                 className={`w-full bg-white border ${
-                  currentPDF !== null ? "border-green-400 " : "border-gray-300"
+                  pdf !== null ? "border-green-400 " : "border-gray-300"
                 } px-4 py-2 rounded-md text-gray-800`}
               >
                 <span id="fileName" className="truncate">
-                  {currentPDF !== null
-                    ? currentPDF?.name
-                    : "NOTE: Only PDFs are allowed."}
+                  {pdf !== null ? pdf?.name : "NOTE: Only PDFs are allowed."}
                 </span>
               </span>
             </div>
@@ -100,7 +103,8 @@ const UploadPDF = () => {
 
           <DialogFooter>
             <button
-              className="bg-black text-white px-5   mt-2 py-2 rounded-lg flex gap-3"
+              disabled={pdf === null}
+              className="bg-black text-white px-5 w-fit disabled:opacity-65 disabled:cursor-not-allowed  mt-2 py-2 rounded-lg flex gap-3"
               onClick={handleFileSubmit}
             >
               Submit

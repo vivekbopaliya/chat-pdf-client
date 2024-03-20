@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { File } from "lucide-react";
 
 const Header = () => {
+  // Retrieving the current uplaoded PDF from the Redux store to display to user
   const currentPDF = useSelector((state) => state.PDF.currentPDF);
   return (
     <div className="shadow-sm w-screen flex justify-between sm:px-16 px-5 py-2 items-center">

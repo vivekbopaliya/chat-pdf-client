@@ -3,23 +3,22 @@ import { createSlice } from "@reduxjs/toolkit";
 export const chat = createSlice({
     name: "chat",
     initialState: {
-        chatHistory: {
-            'chat_history': '',
-            'question': '',
-            'answer': ''
 
-        },
+        // To keep track of the conversation
+        chatHistory: [],
     },
     reducers: {
-        setChatHistory(state, action) {
-            state.chatHistory.chat_history = action.payload.chat_history
-            state.chatHistory.question = action.payload.question
-            state.chatHistory.answer = action.payload.answer
 
+        setChatHistory(state, action) {
+            // Add the new question and answer object into chatHistory array
+            state.chatHistory.push({
+                question: action.payload.question,
+                answer: action.payload.answer
+            });
         }
     },
 });
 
-export const { setChatHistory } = chat.actions;
+export const { setQuestion, setChatHistory } = chat.actions;
 
 export default chat.reducer;
