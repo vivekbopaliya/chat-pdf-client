@@ -6,6 +6,8 @@ Chat-PDF is an application designed to facilitate PDF uploads and answer questio
 
 For the backend code, please refer [here](https://github.com/vivekbopaliya/chat-pdf-server).
 
+Please note: The backend is deployed on Render's free-tier platform, so it may take 1 or 2 minutes before it active.
+
 # Getting Started with Frontend
 
 ## Prerequisites
@@ -24,8 +26,4 @@ For the backend code, please refer [here](https://github.com/vivekbopaliya/chat-
 
 ## Live Demo:
 
-Watch a demo of Chat-PDF in action [here](https://drive.google.com/drive/folders/1gb1xmBVRZnlcD1LmFXGNLG5AhGc7oSA3).
-
-## Drive Folder
-
-Here is the folder containing mobile and PC designs, along with a live demo and error handling. Access it [here](https://drive.google.com/drive/folders/1gb1xmBVRZnlcD1LmFXGNLG5AhGc7oSA3).
+Here is the folder containing mobile and PC designs, along with a live demo and error handling. Access it [here](https://drive.google.com/drive/folders/1gb1xmBVRZnlcD1LmFXGNLG5AhGc7oSA3?usp=sharing).

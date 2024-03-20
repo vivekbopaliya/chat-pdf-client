@@ -12,24 +12,24 @@ import { Files } from "lucide-react";
 import { useSelector } from "react-redux";
 
 const PDFList = () => {
-  const isUploaded = useSelector((state) => state.PDF.isUploaded);
+  // const isUploaded = useSelector((state) => state.PDF.isUploaded);
 
   const [pdfs, setPdfs] = React.useState([]);
 
   // Fetching all the uploaded PDFs from database
-  const getPDFs = async () => {
-    try {
-      const res = await axios.get("http://127.0.0.1:8000/pdfs");
-      setPdfs(res?.data?.files);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const getPDFs = async () => {
+  //   try {
+  //     const res = await axios.get("https://chatpdf-server.vercel.app/pdfs");
+  //     setPdfs(res?.data?.files);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   // Refreshing PDF data whenever the user uploads a new PDF to provide users with updated information
-  React.useEffect(() => {
-    getPDFs();
-  }, [isUploaded]);
+  // React.useEffect(() => {
+  //   getPDFs();
+  // }, [isUploaded]);
 
   return (
     <div className="justify-start  items-center absolute h-screen   z-10 left-0  flex sm:ml-8 ml-3">
@@ -63,7 +63,7 @@ const PDFList = () => {
 
           {!pdfs.length && (
             <p className="w-full h-full text-lg font-medium flex justify-center items-center">
-              No PDF uploaded.
+              This was just for development purposes, not for real-world use.
             </p>
           )}
         </SheetContent>
